@@ -4,6 +4,7 @@
 namespace App\Filters\Customer;
 
 
+use App\Enums\CachingPhoneListKeysEnum;
 use App\Enums\PhoneValidationStatesEnum;
 use App\Filters\Pipe;
 use Closure;
@@ -15,11 +16,11 @@ class PhoneStatesFilter implements Pipe
     public function handle($customers, Closure $next)
     {
         if(request()->get('state')){
-            $validPhoneNumbers = Cache::get('valid_phone_numbers');
-            if (request()->get('state') == PhoneValidationStatesEnum::VALID) {
-                $customers->whereIn('phone', $validPhoneNumbers);
+            $customersIdsWithInvalidPhoneNumber = Cache::get(CachingPhoneListKeysEnum::CUSTOMERS_IDS_WITH_INVALID_PHONE_CACHE_KEY);
+            if (request()->get('state') == PhoneValidationStatesEnum::INVALID) {
+                $customers->whereIn('id', $customersIdsWithInvalidPhoneNumber);
             }else {
-                $customers->whereNotIn('phone', $validPhoneNumbers);
+                $customers->whereNotIn('id', $customersIdsWithInvalidPhoneNumber);
             }
         }
         return $next($customers);

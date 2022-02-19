@@ -10,7 +10,6 @@ use App\Filters\Customer\PhoneStatesFilter;
 use App\PhoneRegex\PhoneRegexFactory;
 use App\Repositories\CustomerRepository;
 use Illuminate\Pipeline\Pipeline;
-use Illuminate\Support\Facades\Cache;
 
 class IndexingPhoneNumbersService
 {
@@ -20,7 +19,7 @@ class IndexingPhoneNumbersService
     private $customerRepository;
 
     /**
-     * @var CachingValidPhoneNumbersService
+     * @var CachingCustomersWithInvalidPhoneService
      */
     private $cachingService;
 
@@ -29,7 +28,7 @@ class IndexingPhoneNumbersService
      * @param CustomerRepository $customerRepository
      */
     public function __construct(CustomerRepository $customerRepository,
-                                CachingValidPhoneNumbersService $cachingService) {
+                                CachingCustomersWithInvalidPhoneService $cachingService) {
         $this->customerRepository = $customerRepository;
         $this->cachingService = $cachingService;
     }
@@ -38,8 +37,8 @@ class IndexingPhoneNumbersService
      * @return mixed
      */
     public function execute(){
-        // cache valid phone numbers if not cached
-        $this->cacheValidPhoneNumbers();
+        // cache customers ids with invalid phone numbers if not cached
+        $this->cachingService->execute();
         // apply pipeline pattern with phone country and status filter then paginate the result
         $customers = $this->customerRepository->query();
         $phone_list = app(Pipeline::class)->send($customers)
@@ -57,14 +56,6 @@ class IndexingPhoneNumbersService
         return compact('phone_list', 'countries', 'phone_number_states');
     }
 
-    /**
-     * cache valid phone numbers if not
-     */
-    private function cacheValidPhoneNumbers(){
-        if(!Cache::get('valid_phone_numbers')) {
-            $this->cachingService->execute();
-        }
-    }
 
     /**
      * map the customer data to the needed data for display
