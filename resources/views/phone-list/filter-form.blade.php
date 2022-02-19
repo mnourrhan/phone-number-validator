@@ -13,11 +13,11 @@
                                     @endif value="{{ $code }}">{{ $name }}</option>
                         @endforeach
                     </select>
-                    @error('country_code')
-                        <span class="invalid-feedback" role="alert">
-                            <p>{{ $message }}</p>
+                    @if($errors->has('country_code'))
+                        <span class="text-danger" role="alert">
+                            <p>{{ $errors->first('country_code') }}</p>
                         </span>
-                    @enderror
+                    @endif
                 </div>
                 <div class="col-md-1"></div>
                 <div class="col-md-1">
@@ -32,11 +32,11 @@
                             </option>
                         @endforeach
                     </select>
-                    @error('state')
-                    <span class="invalid-feedback" role="alert">
-                            <p>{{ $message }}</p>
+                    @if($errors->has('state'))
+                        <span class="text-danger" role="alert">
+                            <p>{{ $errors->first('state') }}</p>
                         </span>
-                    @enderror
+                    @endif
                 </div>
             </div>
         </div>
