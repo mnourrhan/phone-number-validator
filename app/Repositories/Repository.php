@@ -115,4 +115,26 @@ class Repository implements RepositoryInterface
         $this->model = $this->model->query();
         return $this->model;
     }
+
+    /**
+     * Add a "where in" clause to the query.
+     * @param $column_name
+     * @param array $values
+     * @return mixed
+     */
+    public function whereIn($column_name, array $values){
+        $this->model = $this->model->whereIn($column_name, $values);
+        return $this->model;
+    }
+
+    /**
+     * Add a "where not in" clause to the query.
+     * @param $column_name
+     * @param array $values
+     * @return mixed
+     */
+    public function whereNotIn($column_name, array $values){
+        $this->model = $this->model->whereNotIn($column_name, $values);
+        return $this->model;
+    }
 }

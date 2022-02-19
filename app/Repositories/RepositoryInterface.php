@@ -23,4 +23,8 @@ interface RepositoryInterface
     public function find($id);
 
     public function query();
+
+    public function whereIn($column_name, array $values);
+
+    public function whereNotIn($column_name, array $values);
 }
