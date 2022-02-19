@@ -33,7 +33,7 @@ class CachingValidPhoneNumbersService
                     $phone = $customer->phone;
                     $county_code = get_country_between_parenthesis($phone);
                     $countryRegexInstance = PhoneRegexFactory::getInstance($county_code);
-                    // if phone valid, add it to the $validPhoneNumbers array
+                    // if phone valid, add it to the validPhoneNumbers array
                     if ($countryRegexInstance->isPhoneValid($phone)) {
                         array_push($this->validPhoneNumbers, $phone);
                     }

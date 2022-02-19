@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Enums\PhoneValidationStatusEnum;
+use App\Enums\PhoneValidationStatesEnum;
 use App\PhoneRegex\PhoneRegexFactory;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -28,7 +28,7 @@ class IndexingPhoneNumberRequest extends FormRequest
     {
         return [
             'country_code' => ['nullable', Rule::in(PhoneRegexFactory::getCountriesCode())],
-            'state' => ['nullable', Rule::in(PhoneValidationStatusEnum::ALL_STATUS)],
+            'state' => ['nullable', Rule::in(PhoneValidationStatesEnum::ALL_STATES)],
         ];
     }
 }

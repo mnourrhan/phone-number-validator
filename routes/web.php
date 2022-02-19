@@ -14,4 +14,4 @@ use App\Http\Controllers\PhoneNumberController;
 |
 */
 
-Route::get('/', [PhoneNumberController::class, 'index']);
+Route::get('/', [PhoneNumberController::class, 'index'])->name('home');

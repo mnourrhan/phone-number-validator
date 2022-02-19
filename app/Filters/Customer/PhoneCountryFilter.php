@@ -12,8 +12,8 @@ class PhoneCountryFilter implements Pipe
 
     public function handle($customers, Closure $next)
     {
-        if (request()->has('country_code')) {
-            return $customers->where('phone', 'like', '(' . request()->get('country_code') . ')%');
+        if (request()->get('country_code')) {
+            $customers->where('phone', 'like', '(' . request()->get('country_code') . ')%');
         }
         return $next($customers);
     }

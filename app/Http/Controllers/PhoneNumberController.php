@@ -23,6 +23,6 @@ class PhoneNumberController extends Controller
     public function index(IndexingPhoneNumberRequest $request,
                           IndexingPhoneNumbersService $service) {
         $data = $service->execute();
-        return view('welcome');
+        return view('phone-list.index', $data);
     }
 }

@@ -4,9 +4,9 @@
 namespace App\Services;
 
 
-use App\Enums\PhoneValidationStatusEnum;
+use App\Enums\PhoneValidationStatesEnum;
 use App\Filters\Customer\PhoneCountryFilter;
-use App\Filters\Customer\PhoneStatusFilter;
+use App\Filters\Customer\PhoneStatesFilter;
 use App\PhoneRegex\PhoneRegexFactory;
 use App\Repositories\CustomerRepository;
 use Illuminate\Pipeline\Pipeline;
@@ -42,17 +42,19 @@ class IndexingPhoneNumbersService
         $this->cacheValidPhoneNumbers();
         // apply pipeline pattern with phone country and status filter then paginate the result
         $customers = $this->customerRepository->query();
-        $result = app(Pipeline::class)->send($customers)
+        $phone_list = app(Pipeline::class)->send($customers)
                         ->through([
                             PhoneCountryFilter::class,
-                            PhoneStatusFilter::class
+                            PhoneStatesFilter::class
                         ])
                         ->thenReturn()->paginate()
                         ->through(function ($customer) {
                             return $this->mapCustomerData($customer);
                         });
 
-        return $result;
+        $countries = PhoneRegexFactory::getCountriesCodeWithName();
+        $phone_number_states = PhoneValidationStatesEnum::VALIDATION_STATES_TEXT;
+        return compact('phone_list', 'countries', 'phone_number_states');
     }
 
     /**
@@ -73,12 +75,12 @@ class IndexingPhoneNumbersService
         $country_code = get_country_between_parenthesis($customer->phone);
         $countryRegexClass = PhoneRegexFactory::getInstance($country_code);
         return [
-            'country' => $countryRegexClass::COUNTRY_NAME,
-            'code' => $countryRegexClass->getPrettyCode(),
-            'status' => $countryRegexClass->isPhoneValid($customer->phone)
-                            ? PhoneValidationStatusEnum::VALID_TEXT
-                            : PhoneValidationStatusEnum::INVALID_TEXT,
-            'phone' => get_phone_without_country($customer->phone),
+            'country_name' => $countryRegexClass::COUNTRY_NAME,
+            'country_code' => $countryRegexClass->getPrettyCode(),
+            'phone_status' => $countryRegexClass->isPhoneValid($customer->phone)
+                            ? PhoneValidationStatesEnum::VALID_TEXT
+                            : PhoneValidationStatesEnum::INVALID_TEXT,
+            'phone_number' => get_phone_without_country($customer->phone),
         ];
     }
 
