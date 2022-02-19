@@ -17,7 +17,7 @@ filter by country and state. Pagination is an extra.
 - [Laravel: ^8.75](http://laravel.com/)
 - [SQlite](https://sqlite.org) and libsqlite3-dev
 - [PHP: ^7.3|^8.0](https://www.php.net/)
-- PHP Extensions (pdo, zip, curl, and sqlite)
+- PHP Extensions (curl, mbstring, and sqlite)
 
 ## Installation
 
