@@ -1,4 +1,5 @@
 # About 
+
 Create a single page application that uses the database provided (SQLite 3) to list and
 categorize country phone numbers.\
 Phone numbers should be categorized by country, state (valid or not valid), country code and
@@ -12,9 +13,9 @@ filter by country and state. Pagination is an extra.
 ## Prerequisites
 
 - [Composer](https://getcomposer.org/)
-- [Laravel: ^9.0](http://laravel.com/)
+- [Laravel: ^8.75](http://laravel.com/)
 - [SQlite](https://sqlite.org) and libsqlite3-dev
-- [PHP: ^8.0](https://www.php.net/)
+- [PHP: ^7.3|^8.0](https://www.php.net/)
 - PHP Extensions (pdo, zip, curl, and sqlite)
 
 ## Installation
