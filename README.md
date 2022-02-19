@@ -43,6 +43,10 @@ Generate a new application key
 
     php artisan key:generate
 
+Run composer autoload to load helpers
+
+    composer dump-autoload
+
 Run all tests
 
     vendor/bin/phpunit
@@ -60,5 +64,6 @@ You can now access the server at http://localhost:8000
     composer install
     cp .env.example .env
     php artisan key:generate
+    composer dump-autoload
     vendor/bin/phpunit
     php artisan serve
