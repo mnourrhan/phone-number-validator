@@ -1,20 +1,22 @@
 # About 
+
 Create a single page application that uses the database provided (SQLite 3) to list and
-categorize country phone numbers.\
+categorize country phone numbers.
+
 Phone numbers should be categorized by country, state (valid or not valid), country code and
-number.\
+number.
+
 The page should render a list of all phone numbers available in the DB. It should be possible to
 filter by country and state. Pagination is an extra.
-----------
 
 # Getting started
 
 ## Prerequisites
 
 - [Composer](https://getcomposer.org/)
-- [Laravel: ^9.0](http://laravel.com/)
+- [Laravel: ^8.75](http://laravel.com/)
 - [SQlite](https://sqlite.org) and libsqlite3-dev
-- [PHP: ^8.0](https://www.php.net/)
+- [PHP: ^7.3|^8.0](https://www.php.net/)
 - PHP Extensions (pdo, zip, curl, and sqlite)
 
 ## Installation
@@ -41,6 +43,10 @@ Generate a new application key
 
     php artisan key:generate
 
+Run composer autoload to load helpers
+
+    composer dump-autoload
+
 Run all tests
 
     vendor/bin/phpunit
@@ -58,5 +64,6 @@ You can now access the server at http://localhost:8000
     composer install
     cp .env.example .env
     php artisan key:generate
+    composer dump-autoload
     vendor/bin/phpunit
     php artisan serve
